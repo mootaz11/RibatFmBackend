@@ -38,7 +38,7 @@ podcastModel.find()
 
 
 exports.updatepodcast=function(req,res){
-    podcastModel.findByIdAndUpdate(req.params.idpodcast,{$set:{nomPodcast:req.body.nomPodcast,typePodcast:req.body.nomPodcast}})
+    podcastModel.findByIdAndUpdate(req.params.idpodcast,{$set:{nomPodcast:req.body.nomPodcast,typePodcast:req.body.typePodcast}})
     .exec()
     .then(podcast=>{
         if(podcast){
