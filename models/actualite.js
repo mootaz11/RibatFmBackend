@@ -10,7 +10,7 @@ const actualiteModel = new mongoose.Schema({
     creePar: { type: String },
     modifiePar: { type: String, default: 'no one' },
     admin: { type: mongoose.Schema.Types.ObjectId, ref: 'admin' },
-    comments: [{ type: mongoose.Schema.Types.ObjectId }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref:'comment' }],
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'category' }
 
 });

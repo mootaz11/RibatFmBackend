@@ -60,12 +60,27 @@ exports.delete_episode=function(req,res)
 }
 
 
+exports.getAllEpisodes=function(req,res){
+    episodeModel.find()
+            .exec()
+            .then(episodes=>{
+                if(episodes.length>0)
+                {
+                    return res.status(200).json(episodes);
+                }
+                else {
+                    return res.status(404).json({message:'episodes not found '});
+                }
+            })
+            .catch(err=>{
+                return res.status(500).json(err);
+            })
 
+}
 
 
 exports.createEpisode=function(req,res)
 { 
-    
 const episode = new episodeModel({
     _id:new mongoose.Types.ObjectId(),
     nom:req.body.nom,

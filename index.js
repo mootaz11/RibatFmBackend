@@ -14,9 +14,11 @@ app.use(morgan('tiny'));
 
 
 
-const password = "4NdwfdVtGM84LID1";
+const password = "F5ipd2lxdgGfok6A";
 //const uri="mongodb://127.0.0.1:27017/linkedin";
-const uri = "mongodb://localhost:27017/Ribat"
+const uri = "mongodb+srv://amara11:"+password+"@cluster0-09veh.mongodb.net/RibatFm?retryWrites=true&w=majority"
+
+//mongodb://localhost:27017/Ribat
     // @cluster0 - 09 veh.mongodb.net / RibatFm ? retryWrites = true & w = majority ";
     // const uri = "mongodb://localhost:27017";
 
@@ -41,7 +43,9 @@ const actualiteRoute = require("./routes/actualite");
 const podcastRoute = require("./routes/podcast");
 const episodeRoute = require("./routes/episode");
 const videoRoute = require("./routes/video");
+const commentRoute = require("./routes/comment");
 
+app.use("/comment",commentRoute);
 app.use("/admin", adminRoute);
 app.use("/actualite", actualiteRoute);
 app.use("/podcast", podcastRoute);

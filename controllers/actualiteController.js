@@ -102,6 +102,7 @@ exports.CreateActualite=function(req,res){
 exports.getActualite=function(req,res)
 {
     actualiteModel.findById(req.params.idactualite)
+    .populate("comments")
     .exec()
     .then(actualite=>{
         if(actualite)
