@@ -8,9 +8,9 @@ exports.updateEpisode=function(req,res){
     .exec()
     .then(episode=>{
         if(episode){
-            episode.nom=req.body.nom;
-            episode.invites=req.body.invites;
-            episode.sequence=req.file.path;
+            if(req.body.nom){episode.nom=req.body.nom;}
+            if(req.body.invites){episode.invites=req.body.invites;}
+            if(req.file){episode.sequence=req.file.path;}
             episode.save()
             .then(episode=>{
                 if(episode)

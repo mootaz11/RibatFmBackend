@@ -53,8 +53,33 @@ exports.showCommentsByActualite=function(req,res){
     })
 }
 
+exports.deleteComment=function(req,res){
+commentModel.findOneAndDelete(req.params.idcomment)
+.exec()
+.then(async comment=>{
+    if(comment){
+      let   actualite = await actualiteModel.findByIdAndUpdate(comment.actualite,{$pull:{comments:comment._id}})
+        if(actualite)
+        {
+            return res.status(200).json({message:'comment delete done'});
+        }
+        else {
+            return res.status(400).json({message:'comment delete error'});
+        }
+    }
+    else 
+    {
+        return res.status(400).json({message:'comment delete error'});
+
+    }
+})
+.catch(err=>{return res.status(500).json(err)})
+
+}
+
 exports.showComments=function(req,res){
     commentModel.find()
+    .populate('actualite')
     .exec()
     .then(comments=>{
         if(comments.length>0)

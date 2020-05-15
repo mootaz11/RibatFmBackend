@@ -23,6 +23,7 @@ exports.updateCategory = function(req, res) {
 
 exports.getAllCategories = function(req, res) {
     categoryModel.find({})
+        .populate('actualite')
         .exec()
         .then(categories => {
             if (categories.length > 0) {

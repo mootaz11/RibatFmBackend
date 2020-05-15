@@ -34,7 +34,7 @@ exports.getActualitesByCategory=function(req,res){
 
 exports.getAllActualites=function(req,res){
 actualiteModel.find()
-.populate('category','nom')
+.populate('category comments')
 .exec()
 .then(actualites=>{
     if(actualites.length>0)
@@ -132,11 +132,24 @@ exports.updateActualite=function(req,res){
     {   let admin=null;
         admin= await adminModel.findById(req.params.adminid)
         if(admin)
-        {
-            actualite.titre=req.body.titre;
-            actualite.contenu=req.body.contenu;
+        {   
+    
+        console.log(req.body);
+            if(req.body.titre)
+            {
+                actualite.titre=req.body.titre;
+
+            }
+            if(req.body.contenu){
+                actualite.contenu=req.body.contenu;
+
+            }
             actualite.modifiePar=admin.nom+admin.prenom;
-            actualite.image=req.file.path;
+                        if(req.file)
+            {
+                actualite.image=req.file.path;
+            }
+            
             actualite.save()
             .then(actualite=> {
                 if(actualite){

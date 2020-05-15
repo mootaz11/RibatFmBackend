@@ -56,7 +56,7 @@ exports.createpodcast=function(req,res){
 podcastModel.findOne({nomPodcast:req.body.nomPodcast})
 .exec()
 .then(podcast=>{
-    if(podcast){
+    if(podcast){    
         return res.status(401).json({message:'podcast exist try again'});
     }
     else {
@@ -87,7 +87,7 @@ podcastModel.findOne({nomPodcast:req.body.nomPodcast})
 
 
 exports.deletePodcast=function(req,res){
-    podcastModel.findOneAndDelete(req.params.idpodcast)
+    podcastModel.findByIdAndDelete(req.params.idpodcast)
     .exec()
     .then(async podcast=>{
         if(podcast)
