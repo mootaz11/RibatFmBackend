@@ -23,6 +23,7 @@ exports.getPodcastsByType=function(req,res){
 exports.getAllPodcasts=function(req,res)
 {
 podcastModel.find()
+.populate('episodes')
 .exec()
 .then(podcasts=>{
     if(podcasts.length>0){

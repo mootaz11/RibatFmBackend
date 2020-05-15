@@ -62,6 +62,7 @@ exports.delete_episode=function(req,res)
 
 exports.getAllEpisodes=function(req,res){
     episodeModel.find()
+            .populate('podcast')
             .exec()
             .then(episodes=>{
                 if(episodes.length>0)
