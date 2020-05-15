@@ -42,6 +42,7 @@ exports.all_admins=function(req,res){
 
 exports.All_sub_admins = function(req, res) {
     adminModel.find({ role: "sous-admin" })
+        .populate('actualites')
         .exec()
         .then(result => {
             if (result.length > 0) {
