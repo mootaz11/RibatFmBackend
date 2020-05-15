@@ -23,6 +23,7 @@ exports.all_admins=function(req,res){
 
 
     adminModel.find({ role: "admin" })
+    .populate('actualites')
     .exec()
     .then(result => {
         if (result.length > 0) {

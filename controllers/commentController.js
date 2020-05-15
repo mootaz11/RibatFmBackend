@@ -54,7 +54,7 @@ exports.showCommentsByActualite=function(req,res){
 }
 
 exports.deleteComment=function(req,res){
-commentModel.findOneAndDelete(req.params.idcomment)
+commentModel.findByIdAndDelete(req.params.idcomment)
 .exec()
 .then(async comment=>{
     if(comment){
