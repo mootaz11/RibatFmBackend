@@ -66,33 +66,46 @@ exports.updateInfo = function(req, res) {
         .exec()
         .then(admin => {
             if (admin) {
-                bcrypt.hash(req.body.motdepasse, 10, (err, encrypted) => {
-                    if (err) {
-                        throw new Error();
-                    }
-                    if (encrypted) {
-                        admin.motdepasse = encrypted;
-                        admin.nom = req.body.nom;
-                        admin.prenom = req.body.prenom;
-                        admin.email = req.body.email;
-                        admin.role = req.body.role;
-                        admin.save()
-                            .then(admin => {
-                                if (admin) {
-                                    return res.status(200).json({ message: 'admin updated', admin });
-                                } else {
-                                    return res.status(401).json({ message: 'update failed' });
-                                }
-                            })
-                            .catch(err => {
-                                return res.status(500).json(err)
-                            })
-                    }
-                })
-            } else {
-                return res.status(404).json({ message: 'admin not found' });
+                if(req.body.motdepasse){
+                    
+                    bcrypt.hash(req.body.motdepasse, 10, (err, encrypted) => {
+                        if (err) {
+                            throw new Error();
+                        }
+                        
+                        if (encrypted) {
+                            admin.motdepasse=encrypted
+                        } 
+                        else {
+                            return res.status(400).json({message:'crypting failed'});
+                        }
+
+                });
             }
-        })
+            Object.keys(req.body).forEach(element=>{
+                if(element!='motdepasse'){
+                    admin[element]=req.body[element]
+                }
+            })
+            
+            admin.save().then(result=>{
+                if(result){
+                    return res.status(200).json({message:'update done ',admin})
+                   }
+                   else {
+                       return res.status(400).json({message:'update failed'});
+                   }
+            }).catch(err=>{
+                return res.status(500).json(err);
+            })
+        }
+        else {
+            return res.status(404).json({message:'admin not found'});
+
+        }
+    })    
+
+        
         .catch(err => {
             return res.status(500).json(err)
         })
