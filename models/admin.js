@@ -13,4 +13,5 @@ const adminModel = new mongoose.Schema({
     actualites: [{ type: mongoose.Types.ObjectId, ref: 'actualite' }]
 });
 
+
 module.exports = mongoose.model('admin', adminModel);
