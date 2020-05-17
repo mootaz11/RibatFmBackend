@@ -1,7 +1,6 @@
 const videoModel = require("../models/video");
 const mongoose = require("mongoose");
 
-
 exports.create=function(req,res){
     let video = new videoModel({
         _id:new mongoose.Types.ObjectId(),
@@ -9,6 +8,7 @@ exports.create=function(req,res){
         description:String,
         Date_creation:new Date().getTime()
     });
+
     video.save()
     .then(video=>{
         if(video){

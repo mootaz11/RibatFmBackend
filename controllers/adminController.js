@@ -64,26 +64,16 @@ exports.All_sub_admins = function(req, res) {
 exports.updateInfo = function(req, res) {
     adminModel.findById(req.params.id)
         .exec()
-        .then(admin => {
+        .then(async admin => {
             if (admin) {
                 if(req.body.motdepasse){
-                    
-                    bcrypt.hash(req.body.motdepasse, 10, (err, encrypted) => {
-                        if (err) {
-                            throw new Error();
-                        }
-                        
-                        if (encrypted) {
-                            admin.motdepasse=encrypted
-                        } 
-                        else {
-                            return res.status(400).json({message:'crypting failed'});
-                        }
 
-                });
+                 const  encrypted = await  bcrypt.hash(req.body.motdepasse, 10);
+                 admin.motdepasse=encrypted;
+
             }
             Object.keys(req.body).forEach(element=>{
-                if(element!='motdepasse'){
+                if(element.toString() !== "motdepasse"){
                     admin[element]=req.body[element]
                 }
             })
@@ -117,17 +107,14 @@ exports.login = function(req, res) {
             if (admin) {
                 bcrypt.compare(req.body.motdepasse, admin.motdepasse, (err, same) => {
                     if (err) {
-
                         return new Error("comparing failed");
-
                     }
                     if (same) {
 
-                        const token = jwt.sign({ nom: admin.nom, admin_id: admin._id, role: admin.role }, "Secret", { expiresIn: 60 * 60 * 60 })
+                        const token = jwt.sign({admin_id: admin._id, role: admin.role }, "Secret", { expiresIn: 60 * 60 * 60 })
                         return res.status(200).json({ message: 'login successfully', token });
-
-                    } else
-
+                    } 
+                    else
                     {
                         return res.status(401).json({ message: 'mot de passe incorrect' });
                     }
